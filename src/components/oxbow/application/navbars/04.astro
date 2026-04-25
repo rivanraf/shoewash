@@ -1,0 +1,89 @@
+---
+export const freeComponent = true;
+export const excludeFromObfuscation = ["flex", "hidden"];
+import Text from "@/components/fundations/typography/Text.astro";
+import Button from "@/components/fundations/buttons/Button.astro";
+import IconButton from "@/components/fundations/buttons/IconButton.astro";
+import Burger from "@/components/fundations/icons/Burger.astro";
+import Logo from "@/components/assets/Logo.astro";
+---
+
+<!-- copy:start -->
+<header
+  class="w-full bg-white border-b border-zinc-200 dark:border-zinc-800 dark:bg-zinc-900"
+>
+  <div
+    x-data="{ open:false }"
+    class="px-6 mx-auto max-w-screen-xl md:px-10 lg:px-16"
+  >
+    <div class="flex items-center justify-between h-16 md:grid md:grid-cols-3">
+      <div class="items-center hidden md:flex gap-4">
+        <Text
+          tag="a"
+          href="#_"
+          variant="textSM"
+          class="font-medium text-zinc-600 dark:text-zinc-300 dark:hover:text-white hover:text-zinc-900"
+          >Products</Text
+        >
+
+        <Text
+          tag="a"
+          href="#_"
+          variant="textSM"
+          class="font-medium text-zinc-600 dark:text-zinc-300 dark:hover:text-white hover:text-zinc-900"
+          >Solutions</Text
+        >
+      </div>
+      <div class="flex items-center justify-center">
+        <a href="#_" class="inline-flex items-center gap-2"
+          ><Logo class="text-black h-7 dark:text-white" /><span class="sr-only"
+            >Home</span
+          ></a
+        >
+      </div>
+      <div class="flex items-center justify-end gap-3">
+        <div class="items-center hidden md:flex gap-3">
+          <Text
+            tag="a"
+            href="#_"
+            variant="textSM"
+            class="font-medium text-zinc-600 dark:text-zinc-300 dark:hover:text-white hover:text-zinc-900"
+            >Pricing</Text
+          >
+
+          <Text
+            tag="a"
+            href="#_"
+            variant="textSM"
+            class="font-medium text-zinc-600 dark:text-zinc-300 dark:hover:text-white hover:text-zinc-900"
+            >Docs</Text
+          >
+          <Button variant="default" size="xs">Get started</Button>
+        </div>
+        <IconButton
+          class="md:hidden"
+          @click="open=!open"
+          :aria-expanded="open"
+          aria-controls="nav-04m"
+          variant="muted"
+          size="xs"
+        >
+          <Burger size="xs" slot="icon" />
+        </IconButton>
+      </div>
+    </div>
+    <div
+      id="nav-04m"
+      x-cloak
+      x-show="open"
+      class="pb-4 md:hidden grid grid-cols-1 gap-2"
+    >
+      <Button variant="muted" size="xs">Products</Button>
+      <Button variant="muted" size="xs">Solutions</Button>
+      <Button variant="muted" size="xs">Pricing</Button>
+      <Button variant="muted" size="xs">Docs</Button>
+      <Button variant="default" size="xs">Get started</Button>
+    </div>
+  </div>
+</header>
+<!-- copy:end -->
