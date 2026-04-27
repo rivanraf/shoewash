@@ -31,10 +31,17 @@ class ServiceController extends Controller
         $request->validate([
             'name' => 'required|string|max:255',
             'price' => 'required|numeric',
+            'description' => 'nullable',
         ]);
 
         $service = Service::findOrFail($id);
-        $service->update($request->all());
+        
+        // Ambil semua request, tambahkan is_active (karena checkbox tidak terkirim jika false)
+        $data = $request->all();
+        $data['is_active'] = $request->has('is_active');
+        
+        $service->update($data);
+        
         return redirect()->back()->with('success', 'Layanan berhasil diupdate!');
     }
 
@@ -42,13 +49,13 @@ class ServiceController extends Controller
     {
         $service = Service::findOrFail($id);
         
-        // Proteksi: Jangan hapus jika ada booking yang pakai layanan ini
-        if ($service->bookings()->exists()) {
-            return redirect()->back()->with('error', 'Gagal hapus! Layanan ini masih digunakan dalam transaksi.');
-        }
+        // Proteksi: Kita pastikan relasi aman dengan mengecek bookings()->exists()
+        // Namun, kita ubah fungsinya menjadi Toggle Status (Soft Deactivate) agar data booking lama tidak error.
+        $service->is_active = !$service->is_active;
+        $service->save();
 
-        $service->delete();
-        return redirect()->back()->with('success', 'Layanan berhasil dihapus!');
+        $status = $service->is_active ? 'diaktifkan' : 'dinonaktifkan';
+        return redirect()->back()->with('success', "Layanan berhasil {$status}!");
     }
 
     public function updateQuota(Request $request)

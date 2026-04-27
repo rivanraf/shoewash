@@ -97,10 +97,10 @@
                 <div class="mx-auto w-full max-w-7xl px-4 py-16 sm:px-6 lg:px-8">
                     <div class="mx-auto max-w-prose text-center">
                         <h1 class="text-4xl font-bold text-gray-900 sm:text-6xl tracking-tight">
-                            Why Trust Your <strong class="text-blue-700"> Kicks </strong> to Us?
+                            Kenapa harus cuci <strong class="text-blue-700"> Sepatu </strong> di Kita?
                         </h1>
                         <p class="mt-6 text-base text-pretty text-gray-700 sm:text-lg/relaxed">
-                            Shoewash adalah layanan cuci sepatu profesional yang berdedikasi untuk memberikan hasil terbaik bagi pelanggan kami. 
+                            Karena di kami melayani keseluruhan customer dengan hati tanpa memilah milih harga sesuai mood layanan pada saat mengeksekusi untuk memberikan hasil terbaik bagi pelanggan kami. 
                         </p>
                     </div>
 

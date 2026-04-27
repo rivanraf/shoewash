@@ -50,11 +50,11 @@ Route::middleware(['auth', 'is_admin'])->prefix('admin')->group(function () {
     Route::patch('/users/{id}/toggle', [AdminController::class, 'toggleStatus'])->name('admin.users.toggle');
     Route::patch('/admin/booking/{id}/status', [BookingController::class, 'updateStatus'])->name('admin.booking.updateStatus');
 
-    Route::prefix('admin')->name('admin.')->group(function() {
-    Route::resource('services', \App\Http\Controllers\Admin\ServiceController::class);
+    Route::name('admin.')->group(function() {
+        Route::resource('services', \App\Http\Controllers\Admin\ServiceController::class);
 
-    Route::post('/settings/update-quota', [\App\Http\Controllers\Admin\ServiceController::class, 'updateQuota'])
-         ->name('settings.updateQuota');
+        Route::post('/settings/update-quota', [\App\Http\Controllers\Admin\ServiceController::class, 'updateQuota'])
+             ->name('settings.updateQuota');
     });
 });
 

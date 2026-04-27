@@ -16,7 +16,8 @@ class BookingController extends Controller
 {
     public function index()
     {
-        $services = Service::all();
+        // Hanya tampilkan layanan yang is_active = true
+        $services = Service::where('is_active', true)->get();
         return view('booking.index', compact('services'));
     }
 
@@ -53,7 +54,7 @@ class BookingController extends Controller
             $orderNumber = 'SW-' . strtoupper(Str::random(8));
 
             // 5. Logika Expired Dinamis
-            $expiredTime = ($request->pickup_method === 'midtrans') ? now()->addMinutes(15) : now()->addHours(2);
+            $expiredTime = ($request->pickup_method === 'midtrans') ? now()->addMinutes(15) : now()->addMinutes(1);
 
             // 6. Simpan ke Tabel Bookings
             $booking = Booking::create([
