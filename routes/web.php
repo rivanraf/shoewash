@@ -11,7 +11,7 @@ Route::get('/', function () {
 });
 
 // Harus di luar middleware 'auth' karena Midtrans bukan user yang login
-Route::post('/midtrans/callback', [BookingController::class, 'callback']);
+Route::post('/api/midtrans-callback', [BookingController::class, 'callback']);
 
 Route::get('/booking/receipt/{order_number}', [BookingController::class, 'showReceipt'])->name('booking.receipt');
 

@@ -11,14 +11,14 @@ return Application::configure(basePath: dirname(__DIR__))
         health: '/up',
     )
     ->withMiddleware(function (Middleware $middleware): void {
-        // 1. Logika alias middleware yang sudah ada (JANGAN DIHAPUS)
+        // 1. Logika alias middleware yang sudah ada (Tetap dipertahankan)
         $middleware->alias([
             'is_admin' => \App\Http\Middleware\IsAdmin::class,
         ]);
 
-        // 2. TAMBAHKAN INI: Mengecualikan Route Midtrans dari CSRF
+        // 2. SINKRONISASI: Mengecualikan Route Midtrans dari CSRF sesuai dengan routes/web.php
         $middleware->validateCsrfTokens(except: [
-            'midtrans/callback', 
+            'api/midtrans-callback', // Diubah agar sinkron dengan rute baru
         ]);
     })
     ->withExceptions(function (Exceptions $exceptions): void {
