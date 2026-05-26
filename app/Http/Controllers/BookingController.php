@@ -54,7 +54,7 @@ class BookingController extends Controller
             $orderNumber = 'SW-' . strtoupper(Str::random(8));
 
             // 5. Logika Expired Dinamis
-            $expiredTime = ($request->pickup_method === 'midtrans') ? now()->addMinutes(15) : now()->addMinutes(1);
+            $expiredTime = ($request->pickup_method === 'midtrans') ? now()->addMinutes(15) : now()->addMinutes(5);
 
             // 6. Simpan ke Tabel Bookings
             $booking = Booking::create([

@@ -43,6 +43,11 @@
                                 <p class="text-[10px] uppercase text-gray-400 font-black tracking-widest">Jenis Layanan</p>
                                 <p class="text-lg font-bold text-gray-900">{{ $booking->service->name }}</p>
                             </div>
+                            {{-- TAMBAHAN: Menampilkan Tanggal Booking Customer --}}
+                            <div>
+                                <p class="text-[10px] uppercase text-gray-400 font-black tracking-widest">Tanggal Booking</p>
+                                <p class="text-lg font-bold text-gray-900">{{ $booking->created_at->format('d M Y, H:i') }} WIB</p>
+                            </div>
                         </div>
                     </div>
 

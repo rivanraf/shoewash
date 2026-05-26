@@ -34,6 +34,34 @@
                 </div>
             </div>
 
+            {{-- TAMBAHAN: FORM BAR PENCARIAN (SEARCH BAR) --}}
+            <div class="mb-6 bg-white p-4 rounded-2xl border border-gray-200 shadow-sm flex flex-col md:flex-row items-center justify-between gap-4">
+                <form action="{{ url('/admin/dashboard') }}" method="GET" class="w-full flex gap-3 m-0 p-0">
+                    <div class="relative flex-grow">
+                        <span class="absolute inset-y-0 left-0 flex items-center pl-3 text-gray-400">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+                            </svg>
+                        </span>
+                        <input 
+                            type="text" 
+                            name="search" 
+                            value="{{ request('search') }}"
+                            placeholder="Cari berdasarkan nomor order, nama pelanggan, nomor telepon, atau merek sepatu..." 
+                            class="w-full pl-10 pr-4 py-2.5 bg-gray-50 border border-gray-200 rounded-xl text-sm font-medium focus:bg-white focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition"
+                        >
+                    </div>
+                    <button type="submit" class="bg-blue-600 hover:bg-blue-700 text-white text-sm font-bold px-6 py-2.5 rounded-xl transition shadow-sm whitespace-nowrap">
+                        Cari
+                    </button>
+                    @if(request('search'))
+                        <a href="{{ url('/admin/dashboard') }}" class="bg-gray-100 hover:bg-gray-200 text-gray-600 text-sm font-bold px-4 py-2.5 rounded-xl transition flex items-center justify-center whitespace-nowrap">
+                            Reset
+                        </a>
+                    @endif
+                </form>
+            </div>
+
             {{-- Order Cards Grid --}}
             <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
                 @forelse($allBookings as $b)
@@ -44,10 +72,21 @@
 
                     <div class="bg-white rounded-2xl border border-gray-200 shadow-sm overflow-hidden flex flex-col transition hover:shadow-md">
                         {{-- Card Header --}}
-                        <div class="p-4 border-b border-gray-100 flex justify-between items-center bg-gray-50/50">
-                            <span class="font-mono text-sm font-bold text-blue-700 tracking-wider">
-                                #{{ $b->order_number }}
-                            </span>
+                        <div class="p-4 border-b border-gray-100 flex justify-between items-start bg-gray-50/50">
+                            <div>
+                                <span class="font-mono text-sm font-bold text-blue-700 tracking-wider block">
+                                    #{{ $b->order_number }}
+                                </span>
+                                {{-- INFORMASI TANGGAL ORDER CUSTOMER --}}
+                                <div class="flex items-center gap-1 mt-1 text-gray-400">
+                                    <svg xmlns="http://www.w3.org/2000/svg" class="h-3.5 w-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
+                                    </svg>
+                                    <span class="text-[11px] font-medium">
+                                        {{ $b->created_at->format('d M Y, H:i') }} WIB
+                                    </span>
+                                </div>
+                            </div>
                             
                             @if($isExpired)
                                 <span class="px-2.5 py-1 text-[10px] font-bold uppercase bg-red-100 text-red-700 rounded-lg">Expired</span>
@@ -79,24 +118,9 @@
                                 </div>
                             </div>
 
-                            <hr class="border-gray-50">
+                            <hr class="border-gray-100">
 
-                            {{-- FOTO KONDISI SEPATU --}}
-                            @if($b->shoe_image)
-                                <div class="mb-4">
-                                    <p class="text-[10px] uppercase text-gray-400 font-bold tracking-widest mb-2">Foto Kondisi</p>
-                                    <a href="{{ asset('storage/bookings/' . $b->shoe_image) }}" target="_blank" class="block group relative">
-                                        <img src="{{ asset('storage/bookings/' . $b->shoe_image) }}" 
-                                             class="w-full h-32 object-cover rounded-xl border border-gray-100 group-hover:opacity-90 transition shadow-sm"
-                                             alt="Foto Sepatu">
-                                        <div class="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition">
-                                            <span class="bg-black/50 text-white text-[10px] px-2 py-1 rounded-lg">Klik untuk memperbesar</span>
-                                        </div>
-                                    </a>
-                                </div>
-                            @endif
-
-                            {{-- Informasi Detail --}}
+                            {{-- Informasi Detail Teks (Merek & Layanan Ditampilkan Tanpa Gambar) --}}
                             <div class="grid grid-cols-2 gap-4">
                                 <div>
                                     <p class="text-[10px] uppercase text-gray-400 font-bold tracking-widest mb-1">Merek Sepatu</p>
@@ -169,7 +193,7 @@
                                     </x-button>
                                 </form>
                             @else
-                                {{-- Tombol Ikon Mata untuk Melihat Struk --}}
+                                {{-- Tombol Ikon Mata untuk Melihat Detail Struk --}}
                                 <a href="{{ route('booking.receipt', $b->order_number) }}" target="_blank" title="Lihat Bukti Transaksi">
                                     <x-button variant="secondary" class="py-2.5 px-3 border-gray-200 hover:bg-gray-100 transition-colors">
                                         <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 text-gray-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -189,13 +213,14 @@
                             </svg>
                         </div>
                         <h3 class="text-xl font-bold text-gray-800">Antrean Kosong</h3>
-                        <p class="text-gray-500 mt-2">Saat ini belum ada pesanan baru yang masuk ke sistem.</p>
+                        <p class="text-gray-500 mt-2">Saat ini belum ada pesanan baru yang cocok dengan kata kunci pencarian Anda.</p>
                     </div>
                 @endforelse
             </div>
             
+            {{-- MODIFIKASI: Mengikat string pencarian pada tautan pagination --}}
             <div class="mt-8">
-                {{ $allBookings->links() }}
+                {{ $allBookings->appends(['search' => request('search')])->links() }}
             </div>
         </div>
     </div>

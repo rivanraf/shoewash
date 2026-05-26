@@ -16,14 +16,38 @@
 
             {{-- Stats Cards --}}
             <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
-                <div class="bg-white p-6 rounded-2xl border border-gray-200 shadow-sm">
-                    <p class="text-xs font-bold text-gray-400 uppercase tracking-widest">Pendapatan Bulan Ini</p>
+                {{-- Card Pendapatan Bulanan dengan Dropdown Filter --}}
+                <div class="bg-white p-6 rounded-2xl border border-gray-200 shadow-sm flex flex-col justify-between">
+                    <div class="flex items-center justify-between">
+                        <p class="text-xs font-bold text-gray-400 uppercase tracking-widest">
+                            Pendapatan {{ $months[$selectedMonth] }}
+                        </p>
+                        
+                        {{-- Form Filter Dropdown Bulan --}}
+                        <form action="{{ url('/admin/report') }}" method="GET" id="monthFilterForm" class="m-0 p-0">
+                            <select 
+                                name="month" 
+                                onchange="document.getElementById('monthFilterForm').submit()"
+                                class="text-xs font-bold text-gray-600 bg-gray-50 border border-gray-200 rounded-lg focus:ring-blue-500 focus:border-blue-500 py-1 px-2 cursor-pointer outline-none"
+                            >
+                                @foreach($months as $number => $name)
+                                    <option value="{{ $number }}" {{ $selectedMonth == $number ? 'selected' : '' }}>
+                                        {{ $name }}
+                                    </option>
+                                @endforeach
+                            </select>
+                        </form>
+                    </div>
                     <h2 class="text-2xl font-black text-blue-700 mt-2">Rp {{ number_format($report['monthly_revenue'], 0, ',', '.') }}</h2>
                 </div>
+
+                {{-- Card Pendapatan Tahun Ini --}}
                 <div class="bg-white p-6 rounded-2xl border border-gray-200 shadow-sm">
                     <p class="text-xs font-bold text-gray-400 uppercase tracking-widest">Pendapatan Tahun Ini</p>
                     <h2 class="text-2xl font-black text-gray-900 mt-2">Rp {{ number_format($report['yearly_revenue'], 0, ',', '.') }}</h2>
                 </div>
+
+                {{-- Card Total Seluruh Pendapatan --}}
                 <div class="bg-white p-6 rounded-2xl border border-gray-200 shadow-sm">
                     <p class="text-xs font-bold text-gray-400 uppercase tracking-widest">Total Seluruh Pendapatan</p>
                     <h2 class="text-2xl font-black text-green-600 mt-2">Rp {{ number_format($report['total_revenue'], 0, ',', '.') }}</h2>
